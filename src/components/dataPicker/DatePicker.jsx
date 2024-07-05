@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from 'react';
+import styled from 'styled-components';
 
 import ButtonGroup from '../buttonGroup/ButtonGroup';
 import Select from '../select/Select';
@@ -7,8 +8,10 @@ import { month } from './dates';
 import { getDaysInMonth } from '../../utils/getDaysInMonth';
 import { generateYearsInRange } from '../../utils/generateYearsInRange';
 
-const DatePicker = ({ label }) => {
-  const [date, setDate] = useState({  м 
+const DatePickerStyled = styled.div``;
+
+const DatePicker = ({ label, $errorMsg }) => {
+  const [date, setDate] = useState({
     day: '',
     month: '',
     year: '',
@@ -40,7 +43,7 @@ const DatePicker = ({ label }) => {
   };
 
   return (
-    <div>
+    <DatePickerStyled>
       {label && <Label>{label}</Label>}
       <ButtonGroup direction="row" gap={2}>
         <Select
@@ -65,7 +68,8 @@ const DatePicker = ({ label }) => {
           value={date.year}
         />
       </ButtonGroup>
-    </div>
+      {/*{!!$errorMsg && <span>{$errorMsg}</span>}*/}
+    </DatePickerStyled>
   );
 };
 
