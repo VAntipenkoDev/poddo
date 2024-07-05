@@ -7,6 +7,7 @@ export const theme = {
     midnightBlueHover: '#15161e',
     mediumGray: '#8F8F8F',
     white: '#ffffff',
+    red: '#EA3913',
   },
   fontSizes: {
     inputFontSize: '0.9rem',
