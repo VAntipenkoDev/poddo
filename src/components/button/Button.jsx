@@ -12,8 +12,8 @@ const ButtonStyled = styled.button`
   cursor: pointer;
 `;
 
-const Button = ({ children, onClick, $fullWidth }) => (
-  <ButtonStyled $fullWidth={$fullWidth} onClick={onClick}>
+const Button = ({ children, onClick, $fullWidth, type = 'button' }) => (
+  <ButtonStyled type={type} $fullWidth={$fullWidth} onClick={onClick}>
     {children}
   </ButtonStyled>
 );
