@@ -6,6 +6,7 @@ import { useFormik } from 'formik';
 import Input from '../../input/Input';
 import ButtonGroup from '../../buttonGroup/ButtonGroup';
 import Button from '../../button/Button';
+import LoginSchema from './validation';
 import { MassageSVG, UnlockSVG } from '../../../assets/icons/index';
 
 export const FormStyled = styled.form`
@@ -32,7 +33,7 @@ const ContactUsStyled = styled.a`
 `;
 
 const LoginForm = () => {
-  const fokmik = useFormik({
+  const formik = useFormik({
     initialValues: {
       login: '',
       password: '',
@@ -40,6 +41,7 @@ const LoginForm = () => {
     onSubmit: values => {
       console.log('values', values);
     },
+    validationSchema: LoginSchema,
   });
 
   return (
@@ -49,9 +51,10 @@ const LoginForm = () => {
           icon={MassageSVG}
           label="Email Address"
           placeholder="Please Enter your Email"
-          handleChange={fokmik.handleChange}
+          handleChange={formik.handleChange}
           name="login"
-          value={fokmik.values.login}
+          value={formik.values.login}
+          errorMsg={formik.errors.login}
         />
         <Input
           name="password"
@@ -59,15 +62,16 @@ const LoginForm = () => {
           label="Password"
           placeholder="Please Enter your Password"
           type="password"
-          handleChange={fokmik.handleChange}
-          value={fokmik.values.password}
+          handleChange={formik.handleChange}
+          value={formik.values.password}
+          errorMsg={formik.errors.password}
         />
         <LinkStyle>
           <Link to="">Forgot Password?</Link>
         </LinkStyle>
       </ButtonGroup>
       <ButtonGroup gap={1}>
-        <Button onClick={fokmik.handleSubmit} fullWidth>
+        <Button onClick={formik.handleSubmit} fullWidth>
           Login
         </Button>
         <ContactUsStyled>Contact Us</ContactUsStyled>
