@@ -23,7 +23,14 @@ const InputBlockStyled = styled.div`
     background-image: url(${props => props?.icon});
     background-repeat: no-repeat;
     background-position: 1.1rem center;
+  }
+
+  span {
     font-family: 'MontserratRegular', sans-serif;
+    color: ${({ theme: { colors } }) => colors.red};
+    font-size: ${({ theme: { fontSizes } }) => fontSizes.inputFontSize};
+    display: block;
+    margin-top: 0.3rem;
   }
 `;
 
@@ -35,8 +42,9 @@ const Input = ({
   name,
   value,
   handleChange,
+  errorMsg,
 }) => (
-  <InputBlockStyled icon={icon}>
+  <InputBlockStyled hasError={!!errorMsg} icon={icon}>
     {label && <label>{label}</label>}
     <input
       onChange={handleChange}
@@ -45,6 +53,7 @@ const Input = ({
       placeholder={placeholder}
       type={type}
     />
+    {!!errorMsg && <span>{errorMsg}</span>}
   </InputBlockStyled>
 );
 
