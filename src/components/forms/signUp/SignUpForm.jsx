@@ -9,6 +9,7 @@ import { FormStyled } from '../login/LoginForm';
 import { ProfileSVG } from '../../../assets/icons/index';
 import Button from '../../button/Button';
 import DatePicker from '../../dataPicker/DatePicker';
+import SignUpSchema from './validation';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
@@ -18,7 +19,10 @@ const SignUpForm = () => {
       gender: '',
       birthday: '',
     },
-    onSubmit: () => {},
+    onSubmit: () => {
+      console.log(formik.errors);
+    },
+    validationSchema: SignUpSchema,
   });
 
   return (
@@ -31,6 +35,7 @@ const SignUpForm = () => {
           name="name"
           value={formik.values.name}
           handleChange={formik.handleChange}
+          errorMsg={formik.errors.name}
         />
         <Select
           icon={ProfileSVG}
@@ -43,9 +48,19 @@ const SignUpForm = () => {
           }}
           handleChange={() => {}}
         />
-        <DatePicker label="Birthday" />
+        <DatePicker label="Birthday" $errorMsg={formik.errors} />
       </ButtonGroup>
-      <Button onClick={() => navigate('/favorite-game')} $fullWidth>
+      <Button
+        onClick={() => {
+          formik.validateForm().then(data => {
+            if (!!Object.keys(data).length) {
+              return;
+            }
+            navigate('/favorite-game');
+          });
+        }}
+        $fullWidth
+      >
         Next
       </Button>
     </FormStyled>
