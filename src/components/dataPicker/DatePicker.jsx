@@ -7,40 +7,29 @@ import Label from '../label/Label';
 import { month } from './dates';
 import { getDaysInMonth } from '../../utils/getDaysInMonth';
 import { generateYearsInRange } from '../../utils/generateYearsInRange';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 
 const DatePickerStyled = styled.div``;
 
-const DatePicker = ({ label, $errorMsg }) => {
-  const [date, setDate] = useState({
-    day: '',
-    month: '',
-    year: '',
-  });
-
-  const days = getDaysInMonth({ month: date.month, year: date.year });
+const DatePicker = ({ label, onChange, values, errors }) => {
+  const [errorsLength, setErrorsLength] = useState(
+    Object.values(errors).filter(value => value !== '').length,
+  );
+  const days = getDaysInMonth({ month: values.month, year: values.year });
   const years = generateYearsInRange({ start: 1800, end: 2020 });
 
   useEffect(() => {
-    const { day } = date;
-    const _days = Object.values(days);
-    if (!_days.includes(day)) {
-      setDate(prevState => {
-        return {
-          ...prevState,
-          day: '',
-        };
-      });
-    }
-  }, [date.year, date.month]);
+    setErrorsLength(Object.values(errors).filter(value => value !== '').length);
+  }, [errors]);
 
-  const handleChange = (name, value) => {
-    setDate(prevState => {
-      return {
-        ...prevState,
-        [name]: value,
-      };
-    });
-  };
+  useEffect(() => {
+    const { day } = values;
+    const _days = Object.values(days);
+
+    if (values.day && !_days.includes(day)) {
+      onChange('day', '');
+    }
+  }, [values.year, values.month]);
 
   return (
     <DatePickerStyled>
@@ -48,27 +37,38 @@ const DatePicker = ({ label, $errorMsg }) => {
       <ButtonGroup direction="row" gap={2}>
         <Select
           placeholder="Day"
-          handleChange={handleChange}
+          handleChange={(name, value) => onChange(name, value)}
           name="day"
           options={days}
-          value={date.day}
+          value={values.day}
         />
         <Select
           placeholder="Month"
-          handleChange={handleChange}
+          handleChange={(name, value) => onChange(name, value)}
           options={month}
           name="month"
-          value={date.month}
+          value={values.month}
         />
         <Select
           placeholder="Year"
-          handleChange={handleChange}
+          handleChange={(name, value) => onChange(name, value)}
           options={years}
           name="year"
-          value={date.year}
+          value={values.year}
         />
       </ButtonGroup>
-      {/*{!!$errorMsg && <span>{$errorMsg}</span>}*/}
+      {!!errorsLength && (
+        <ErrorMessage>
+          Please select:{' '}
+          {errorsLength &&
+            Object.values(errors)
+              .filter(value => value !== '')
+              .map(
+                (value, idx) =>
+                  `${value}${idx < errorsLength - 1 ? ', ' : '.'} `,
+              )}
+        </ErrorMessage>
+      )}
     </DatePickerStyled>
   );
 };
