@@ -1,5 +1,6 @@
 import React from 'react';
 import styled from 'styled-components';
+import ErrorMessage from '../errorMessage/ErrorMessage';
 
 const InputBlockStyled = styled.div`
   display: flex;
@@ -24,14 +25,6 @@ const InputBlockStyled = styled.div`
     background-repeat: no-repeat;
     background-position: 1.1rem center;
   }
-
-  span {
-    font-family: 'MontserratRegular', sans-serif;
-    color: ${({ theme: { colors } }) => colors.red};
-    font-size: ${({ theme: { fontSizes } }) => fontSizes.inputFontSize};
-    display: block;
-    margin-top: 0.3rem;
-  }
 `;
 
 const Input = ({
@@ -53,7 +46,7 @@ const Input = ({
       placeholder={placeholder}
       type={type}
     />
-    {!!errorMsg && <span>{errorMsg}</span>}
+    {!!errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
   </InputBlockStyled>
 );
 
