@@ -17,16 +17,18 @@ const SignUpForm = () => {
     initialValues: {
       name: '',
       gender: '',
-      birthday: '',
+      day: '',
+      month: '',
+      year: '',
     },
-    onSubmit: () => {
-      console.log(formik.errors);
+    onSubmit: values => {
+      navigate('/favorite-game');
     },
     validationSchema: SignUpSchema,
   });
 
   return (
-    <FormStyled>
+    <FormStyled onSubmit={formik.handleSubmit}>
       <ButtonGroup gap={2}>
         <Input
           icon={ProfileSVG}
@@ -48,19 +50,22 @@ const SignUpForm = () => {
           }}
           handleChange={() => {}}
         />
-        <DatePicker label="Birthday" $errorMsg={formik.errors} />
+        <DatePicker
+          onChange={formik.setFieldValue}
+          label="Birthday"
+          errors={{
+            day: formik?.errors?.day ? 'Day' : '',
+            month: formik?.errors?.month ? 'Month' : '',
+            year: formik?.errors?.year ? 'Year' : '',
+          }}
+          values={{
+            day: formik?.values?.day,
+            month: formik?.values?.month,
+            year: formik?.values?.year,
+          }}
+        />
       </ButtonGroup>
-      <Button
-        onClick={() => {
-          formik.validateForm().then(data => {
-            if (!!Object.keys(data).length) {
-              return;
-            }
-            navigate('/favorite-game');
-          });
-        }}
-        $fullWidth
-      >
+      <Button onClick={formik.handleSubmit} $fullWidth>
         Next
       </Button>
     </FormStyled>
