@@ -1,6 +1,7 @@
 import React from 'react';
 import { useFormik } from 'formik';
 import { useNavigate } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
 
 import ButtonGroup from '../../buttonGroup/ButtonGroup';
 import Input from '../../input/Input';
@@ -10,21 +11,31 @@ import { ProfileSVG } from '../../../assets/icons/index';
 import Button from '../../button/Button';
 import DatePicker from '../../dataPicker/DatePicker';
 import SignUpSchema from './validation';
+import { signUp } from '../../../redux/reducers/signUpReducer';
 
 const SignUpForm = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { name, gender, day, month, year } = useSelector(
+    ({ signUp: { name, gender, birthday, day, month, year } }) => {
+      return { name, gender, day, month, year };
+    },
+  );
+
   const formik = useFormik({
     initialValues: {
-      name: '',
-      gender: '',
-      day: '',
-      month: '',
-      year: '',
+      name: name,
+      gender: gender,
+      day: day,
+      month: month,
+      year: year,
     },
     onSubmit: values => {
+      dispatch(signUp(values));
       navigate('/favorite-game');
     },
     validationSchema: SignUpSchema,
+    enableReinitialize: true,
   });
 
   return (
@@ -35,7 +46,7 @@ const SignUpForm = () => {
           label="Name"
           placeholder="Please Enter your Username"
           name="name"
-          value={formik.values.name}
+          value={name ? name : formik.values.name}
           handleChange={formik.handleChange}
           errorMsg={formik.errors.name}
         />
@@ -43,12 +54,15 @@ const SignUpForm = () => {
           icon={ProfileSVG}
           label="Gender"
           placeholder="Please Select your Gender"
+          name="gender"
           options={{
             Male: 'male',
             Female: 'female',
             'Prefer not to say': 'prefer_not_to_say',
           }}
-          handleChange={() => {}}
+          handleChange={formik.setFieldValue}
+          value={formik.values.gender}
+          defaultValue={gender}
         />
         <DatePicker
           onChange={formik.setFieldValue}
@@ -63,6 +77,7 @@ const SignUpForm = () => {
             month: formik?.values?.month,
             year: formik?.values?.year,
           }}
+          defaultValue={{ day, month, year }}
         />
       </ButtonGroup>
       <Button onClick={formik.handleSubmit} $fullWidth>
