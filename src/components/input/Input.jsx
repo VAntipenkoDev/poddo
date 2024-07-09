@@ -36,6 +36,7 @@ const Input = ({
   value,
   handleChange,
   errorMsg,
+  defaultValue,
 }) => (
   <InputBlockStyled hasError={!!errorMsg} icon={icon}>
     {label && <label>{label}</label>}
@@ -45,6 +46,7 @@ const Input = ({
       name={name}
       placeholder={placeholder}
       type={type}
+      defaultValue={defaultValue}
     />
     {!!errorMsg && <ErrorMessage>{errorMsg}</ErrorMessage>}
   </InputBlockStyled>
