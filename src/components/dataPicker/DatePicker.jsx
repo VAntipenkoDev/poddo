@@ -11,7 +11,7 @@ import ErrorMessage from '../errorMessage/ErrorMessage';
 
 const DatePickerStyled = styled.div``;
 
-const DatePicker = ({ label, onChange, values, errors }) => {
+const DatePicker = ({ label, onChange, values, errors, defaultValue }) => {
   const [errorsLength, setErrorsLength] = useState(
     Object.values(errors).filter(value => value !== '').length,
   );
@@ -41,6 +41,7 @@ const DatePicker = ({ label, onChange, values, errors }) => {
           name="day"
           options={days}
           value={values.day}
+          defaultValue={defaultValue.day}
         />
         <Select
           placeholder="Month"
@@ -48,6 +49,7 @@ const DatePicker = ({ label, onChange, values, errors }) => {
           options={month}
           name="month"
           value={values.month}
+          defaultValue={defaultValue.month}
         />
         <Select
           placeholder="Year"
@@ -55,6 +57,7 @@ const DatePicker = ({ label, onChange, values, errors }) => {
           options={years}
           name="year"
           value={values.year}
+          defaultValue={defaultValue.year}
         />
       </ButtonGroup>
       {!!errorsLength && (
