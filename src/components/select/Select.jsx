@@ -82,6 +82,7 @@ const Select = ({
   handleChange,
   name,
   value,
+  defaultValue,
 }) => {
   const selectRef = useRef(null);
   const [showMenu, setShowMenu] = useState(false);
@@ -107,8 +108,10 @@ const Select = ({
         $isOpen={showMenu}
       >
         <span>
-          {value
-            ? Object.keys(options).find(key => options[key] === value)
+          {value || defaultValue
+            ? Object.keys(options).find(
+                key => options[key] === (value || defaultValue),
+              )
             : placeholder}
         </span>
       </SelectStyled>
