@@ -8,6 +8,7 @@ export const theme = {
     mediumGray: '#8F8F8F',
     white: '#ffffff',
     red: '#EA3913',
+    darkTeal: '#272932',
   },
   fontSizes: {
     inputFontSize: '0.9rem',
@@ -18,5 +19,6 @@ export const theme = {
   },
   gradients: {
     button: 'linear-gradient(180deg, #763dcf 0%, #5c24cc 100%)',
+    activeNavLink: 'nav-link-button-gradient',
   },
 };
