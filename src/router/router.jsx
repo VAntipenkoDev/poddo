@@ -5,6 +5,7 @@ import AuthorizationLayout from '../layouts/authorization/AuthorizationLayout';
 import LoginPage from '../pages/authorization/LoginPage';
 import SignUpPage from '../pages/authorization/SignUpPage';
 import FavoriteGamesPage from '../pages/authorization/FavoriteGamesPage';
+import MainLayout from '../layouts/main/MainLayout';
 
 export const router = createBrowserRouter([
   {
@@ -15,5 +16,9 @@ export const router = createBrowserRouter([
       { path: 'sign-up', element: <SignUpPage /> },
       { path: '/favorite-game', element: <FavoriteGamesPage /> },
     ],
+  },
+  {
+    path: 'home?/:contactId',
+    element: <MainLayout />,
   },
 ]);
